@@ -27,14 +27,23 @@ def get_fractal_data(MAX_ITERATIONS):
             i = 0
             while i <= MAX_ITERATIONS:
                 z = (z**2) + c.real
-                print("mag = " + str(abs(complex(z, y))) + '\n')
                 if (abs(complex(z, y))) <= 2:
                     data_file.write(str(c.real) + ' + ' + str(c.imag) + 'i' + '\n')
                     break
                 i += 1
             y = y + 0.1
         x = x + 0.1
+    data_file.close()
 
+
+def bifurcation_data(factor, current_pop):
+    data_file = open("example.txt", "a")
+    for i in range(0, 20000):
+        n_year_pop = factor*n_year_pop(1 - n_year_pop)
+        data_file.write(str(population) + ', ' + str(factor) + '\n')
+        factor += 0.01
+        x += 0.01
+    data_file.close()
 
 def animate(i):
     graph_data = open('example.txt', 'r').read()
@@ -43,20 +52,66 @@ def animate(i):
     ys = []
     for line in lines:
         if len(line) > 1:
-            x, y = line.split('+')
-            y, i = y.split('i')
+            x, y = line.split(',')
             xs.append(float(x))
             ys.append(float(y))
     ax1.clear()
-
     ax1.plot(xs, ys)
     ax1.plot(xs, ys)
 
 
 def main():
-    get_fractal_data(10)
+    bifurcation_data(1, 1)
     ani = animation.FuncAnimation(fig, animate, interval=20)
     plt.show()
 
-
 main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
